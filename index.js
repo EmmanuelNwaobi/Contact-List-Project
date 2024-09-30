@@ -159,3 +159,7 @@ function contactTarget(event){
     }
 }
 
+// Edit contact list 
+function editContact(ID){
+    
+}
