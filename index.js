@@ -5,9 +5,11 @@ let numberGroup = document.getElementById("number")
 let availableContactContainer = document.getElementById("available-contacts")
 let mainCardContainer = document.getElementById("card-container")
 let actionMessage = document.getElementById("action__message")
+let buttonText = document.getElementById("add__text")
 
 
 let contactArray = []
+let editSignal = -1
 
 // Collect user's input data 
 form.addEventListener("submit", collectData)
@@ -21,6 +23,23 @@ function collectData(event){
     if(nameInput.length === 0 || addressInput.length === 0 || numberInput.length === 0){
         alert("All field's must be completed")
         return
+    }else if(editSignal >= 0){
+        contactArray = contactArray.map((item, index)=>{
+            if(editSignal === index){
+                return{
+                    nameOfContact : nameInput,
+                    addressOfContact : addressInput,
+                    numberOfContact : numberInput
+                }
+            }else{
+                buttonText.textContent = "Add contact"
+                return{
+                    nameOfContact : item.nameOfContact,
+                    addressOfContact : item.addressOfContact,
+                    numberOfContact : item.numberOfContact
+                }
+            }
+        })
     }else {
         const userInput = {
             nameOfContact : nameInput,
@@ -156,5 +175,32 @@ function contactTarget(event){
 
     if(clickedAction === "edit"){
         editContact(contactId)
+    }else if (clickedAction === "delete"){
+        deleteContact(contactId)
     }
 }
+
+
+// Edit contact list 
+function editContact(iD){
+    nameGroup.value = contactArray[iD].nameOfContact
+    addressGroup.value = contactArray[iD].addressOfContact
+    numberGroup.value = contactArray[iD].numberOfContact
+
+    editSignal = iD
+    // Change input field button text content 
+    if(editSignal === iD){
+        buttonText.textContent = "Update contact"
+    }
+}
+
+// Delete a contact 
+function deleteContact(ID){
+    contactArray = contactArray.filter((item, index)=>{
+        return ID !== index
+    })
+    localStorage.setItem("contactInfo", JSON.stringify(contactArray))
+    fetchUserData()
+}
+
+// Delete All note using the reset button 
