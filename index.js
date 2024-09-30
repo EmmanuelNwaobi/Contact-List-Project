@@ -158,8 +158,3 @@ function contactTarget(event){
         editContact(contactId)
     }
 }
-
-// Edit contact list 
-function editContact(ID){
-    
-}
