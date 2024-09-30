@@ -28,7 +28,6 @@ function collectData(event){
             numberOfContact : numberInput
         }
         contactArray.push(userInput)
-        actionMessage.style.display = "block"
     }
     localStorage.setItem("contactInfo", JSON.stringify(contactArray))
     form.reset()
@@ -107,26 +106,33 @@ function printContactInfo(){
 
         let actionBtnDiv = document.createElement("div") //main button container
         actionBtnDiv.classList.add("action-btn")
+        actionBtnDiv.setAttribute("id", `${index}`)
 
         let deleteButtonDiv = document.createElement("div")
         deleteButtonDiv.classList.add("action-btn__delete")
+        deleteButtonDiv.setAttribute("data-action", "delete")
 
         let deleteIcon = document.createElement("i")
         deleteIcon.classList.add("fa-solid", "fa-trash")
+        deleteIcon.setAttribute("data-action", "delete")
 
         let deleteText = document.createElement("p")
         deleteText.textContent = "Delete"
+        deleteText.setAttribute("data-action", "delete")
 
         deleteButtonDiv.append(deleteIcon, deleteText)
 
         let editButtonDiv = document.createElement("div")
         editButtonDiv.classList.add("action-btn__edit")
+        editButtonDiv.setAttribute("data-action", "edit")
 
         let editIcon = document.createElement("i")
         editIcon.classList.add("fa-solid", "fa-pen-to-square")
+        editIcon.setAttribute("data-action", "edit")
 
         let editText = document.createElement("p")
         editText.textContent = "Edit"
+        editText.setAttribute("data-action", "edit")
 
         editButtonDiv.append(editIcon, editText)
         actionBtnDiv.append(deleteButtonDiv, editButtonDiv)
@@ -137,4 +143,23 @@ function printContactInfo(){
     })
 }
 
-//continue from delete and edit contact list 
+//Catch user Action/target
+mainCardContainer.addEventListener("click", contactTarget)
+function contactTarget(event){
+    let userTarget = event.target
+    let grandParentElement = userTarget.parentElement.parentElement
+    
+    if(!grandParentElement.classList.contains("action-btn"))return
+    
+    let contactId = Number(grandParentElement.id)
+    let clickedAction = userTarget.dataset.action 
+
+    if(clickedAction === "edit"){
+        editContact(contactId)
+    }
+}
+
+// Edit contact list 
+function editContact(ID){
+    
+}
