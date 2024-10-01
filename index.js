@@ -6,6 +6,7 @@ let availableContactContainer = document.getElementById("available-contacts")
 let mainCardContainer = document.getElementById("card-container")
 let actionMessage = document.getElementById("action__message")
 let buttonText = document.getElementById("add__text")
+let resetButton = document.getElementById("header-btn")
 
 
 let contactArray = []
@@ -23,7 +24,22 @@ function collectData(event){
     if(nameInput.length === 0 || addressInput.length === 0 || numberInput.length === 0){
         alert("All field's must be completed")
         return
-    }else if(editSignal >= 0){
+    }
+
+    // Check for duplicate contacts
+    let contactExists = contactArray.some(item => 
+        item.nameOfContact.toLowerCase() === nameInput.toLowerCase() && 
+        item.addressOfContact.toLowerCase() === addressInput.toLowerCase() && 
+        item.numberOfContact.toLowerCase() === numberInput.toLowerCase()
+    )
+
+    if (contactExists && editSignal === -1) {
+        alert("This contact already exists.");
+        return;
+    }
+
+    // Edit contact if editSignal is active
+    if(editSignal >= 0){
         contactArray = contactArray.map((item, index)=>{
             if(editSignal === index){
                 return{
@@ -40,7 +56,7 @@ function collectData(event){
                 }
             }
         })
-    }else {
+    } else {
         const userInput = {
             nameOfContact : nameInput,
             addressOfContact : addressInput,
@@ -48,9 +64,21 @@ function collectData(event){
         }
         contactArray.push(userInput)
     }
+
     localStorage.setItem("contactInfo", JSON.stringify(contactArray))
     form.reset()
     fetchUserData()
+
+    // Show success message
+    showSuccessMessage()
+}
+
+// Show success message when contact is added or updated
+function showSuccessMessage(){
+    actionMessage.style.display = "block"  // show the message 
+    setTimeout(()=>{
+        actionMessage.style.display = "none" // Hide the message after 2 seconds 
+    }, 2000)
 }
 
 // Fetch user data from Local Storage 
@@ -204,3 +232,8 @@ function deleteContact(ID){
 }
 
 // Delete All note using the reset button 
+resetButton.addEventListener("click", ()=>{
+    contactArray = []
+    localStorage.setItem("contactInfo", JSON.stringify(contactArray))
+    fetchUserData()
+})

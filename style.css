@@ -216,7 +216,7 @@ input {
 
 .card-container{
     width: 100%;
-    max-height: 55rem;
+    max-height: 47rem;
     overflow-y: auto;
     scroll-behavior: smooth;
     display: flex;
@@ -323,3 +323,62 @@ input {
 
 
 /* Responsive Styling */
+
+@media (max-width: 1200px) {
+    .app {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .contact-details, .available-contacts {
+      width: 90%;
+      margin: 1rem 0;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .app {
+      padding: 1rem;
+    }
+  
+    .contact-details {
+      width: 100%;
+    }
+  
+    .available-contacts {
+      width: 100%;
+    }
+  
+    .card {
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .heading__text, .header-text h2 {
+      font-size: 1.8rem;
+    }
+  
+    .card-container {
+      flex-direction: row;
+      row-gap: 1rem;
+    }
+  
+    .add, .cancel {
+      font-size: 1.4rem;
+      padding: 0.8rem;
+    }
+  
+    .card {
+      width: 100%;
+      padding: 1rem;
+    }
+  
+    .action-btn__delete, .action-btn__edit {
+      font-size: 1.2rem;
+      padding: 0.3rem;
+    }
+  }
+  
